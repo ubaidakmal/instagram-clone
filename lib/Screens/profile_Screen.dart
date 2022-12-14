@@ -7,6 +7,7 @@ import 'package:insta/widgets/cache_image.dart';
 import 'package:insta/widgets/texted_button.dart';
 
 import '../utiles/utiles.dart';
+import '../widgets/bottom_sheat.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String uUid;
@@ -66,8 +67,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
           )
         : Scaffold(
             appBar: AppBar(
-              title: Text(userData['username'] ?? ''),
+              backgroundColor: mobileBackgroundColor,
+              title: Row(
+                children: [
+                  const Icon(
+                    Icons.lock,
+                    size: 14,
+                  ),
+                  const SizedBox(
+                    width: 3,
+                  ),
+                  Text(userData['username'] ?? ''),
+                  const Icon(Icons.arrow_drop_down)
+                ],
+              ),
               centerTitle: false,
+              actions: [
+                IconButton(
+                    onPressed: () {}, icon: const Icon(Icons.add_box_outlined)),
+                IconButton(
+                    onPressed: () {
+                      showSettingBottomSheet(context);
+                    },
+                    icon: const Icon(Icons.menu)),
+              ],
             ),
             body: ListView(
               children: [
