@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:insta/resources/firestore_methods.dart';
 import 'package:insta/utiles/colors.dart';
 import 'package:insta/widgets/cache_image.dart';
 import 'package:insta/widgets/texted_button.dart';
@@ -78,10 +79,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(40),
-                             child: cachedNetworkImage(userData[
-                                    'photoUrl'] ??
-                                "https://play-lh.googleusercontent.com/NIUu0OgXQO4nU-ugWTv6yNy92u9wQFFfwvlWOsCIG-tPYBagOZdpyrJCxfHULI_eeGI", height: 80,width: 80),
-                                
+                            child: cachedNetworkImage(
+                                userData['photoUrl'] ??
+                                    "https://play-lh.googleusercontent.com/NIUu0OgXQO4nU-ugWTv6yNy92u9wQFFfwvlWOsCIG-tPYBagOZdpyrJCxfHULI_eeGI",
+                                height: 80,
+                                width: 80),
                           ),
                           Expanded(
                             flex: 1,
@@ -117,14 +119,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 borderColor: Colors.grey,
                                                 text: "Unfollow",
                                                 textColor: Colors.black,
-                                                function: () {},
+                                                function: () async {
+                                                  await FireStoreMethods()
+                                                      .followUser(
+                                                    FirebaseAuth.instance
+                                                        .currentUser!.uid,
+                                                    userData['uid'],
+                                                  );
+
+                                                  setState(() {
+                                                    isFollowing = false;
+                                                    followersLength--;
+                                                  });
+                                                },
                                               )
                                             : FollowButton(
                                                 backgroundColor: Colors.blue,
                                                 borderColor: Colors.blue,
                                                 text: "Follow",
                                                 textColor: Colors.white,
-                                                function: () {},
+                                                function: () async {
+                                                  await FireStoreMethods()
+                                                      .followUser(
+                                                    FirebaseAuth.instance
+                                                        .currentUser!.uid,
+                                                    userData['uid'],
+                                                  );
+
+                                                  setState(() {
+                                                    isFollowing = true;
+                                                    followersLength++;
+                                                  });
+                                                },
                                               )
                                   ],
                                 )
@@ -176,7 +202,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   mainAxisSpacing: 1.5,
                                   childAspectRatio: 1),
                           itemBuilder: (context, index) {
-                            DocumentSnapshot snap = (snapshot.data! as dynamic).docs[index];
+                            DocumentSnapshot snap =
+                                (snapshot.data! as dynamic).docs[index];
                             return SizedBox(
                               child: cachedNetworkImage(snap['postUrl']),
                             );
