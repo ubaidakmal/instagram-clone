@@ -1,0 +1,23 @@
+[
+    {
+        "rating":"4.5",
+        "title":"You are just somebody i used to know.mp3",
+        "artist":"Ubaid Akmal", 
+        "image":"images/image1.jpg",
+        "audio":"audio/audio1.mp3"
+    },
+    {
+        "rating":"3.5",
+        "title":"Likh dia Apny dar pr kisi ny.mp3",
+        "artist":"Ubaid", 
+        "image":"images/image2.jpg",
+        "audio":"audio/audio1.mp3"
+    },
+    {
+        "rating":"4.1",
+        "title":"I'm mess.mp3",
+        "artist":"Baid", 
+        "image":"images/image3.jpg",
+        "audio":"audio/audio1.mp3"
+    }
+]
