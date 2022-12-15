@@ -11,10 +11,10 @@ class AuthMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // get userData from Database
-  Future<UserModel>getUserDetails()async{
+  Future<UserModel> getUserDetails() async {
     User currentUser = _auth.currentUser!;
-    DocumentSnapshot snapshot = await _firestore.collection('users')
-        .doc(currentUser.uid).get();
+    DocumentSnapshot snapshot =
+        await _firestore.collection('users').doc(currentUser.uid).get();
     return UserModel.fromSnap(snapshot);
   }
 
@@ -49,7 +49,10 @@ class AuthMethods {
             bio: bio,
             followers: [],
             following: []);
-        await _firestore.collection('users').doc(cred.user!.uid).set(user.toJson());
+        await _firestore
+            .collection('users')
+            .doc(cred.user!.uid)
+            .set(user.toJson());
 
         // if not wanna save data on the base of Uid
         // await _firestore.collection('users').add({
@@ -98,5 +101,11 @@ class AuthMethods {
       res = err.toString();
     }
     return res;
+  }
+
+  // signout method
+
+  Future<void> userSignOut() async {
+    await _auth.signOut();
   }
 }

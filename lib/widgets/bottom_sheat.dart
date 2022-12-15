@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:insta/Screens/login_screen.dart';
+import 'package:insta/resources/auth_methods.dart';
 import 'package:insta/resources/firestore_methods.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:get/get.dart';
@@ -295,6 +297,13 @@ showSettingBottomSheet(BuildContext context) {
                               fontWeight: FontWeight.w500,
                               color: Colors.white),
                         ),
+                        onTap: () async {
+                          await AuthMethods().userSignOut();
+                          // ignore: use_build_context_synchronously
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) => const LoginScreen()));
+                        },
                       )
                     ],
                   ),
