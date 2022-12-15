@@ -30,7 +30,7 @@ class _CommentScreenState extends State<CommentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final UserModel userModel = Provider.of<UserProvider>(context).getUser;
+    final UserModel? userModel = Provider.of<UserProvider>(context).getUser;
 
     return Scaffold(
       appBar: AppBar(
@@ -77,7 +77,7 @@ class _CommentScreenState extends State<CommentScreen> {
           child: Row(
             children: [
               CircleAvatar(
-                backgroundImage: NetworkImage(userModel.photourl),
+                backgroundImage: NetworkImage(userModel!.photourl),
                 radius: 18,
               ),
               const SizedBox(

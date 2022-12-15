@@ -19,10 +19,10 @@ class CommentCard extends StatefulWidget {
 }
 
 class _CommentCardState extends State<CommentCard> {
-  bool onTap=false;
+  bool onTap = false;
   @override
   Widget build(BuildContext context) {
-    final UserModel userModel = Provider.of<UserProvider>(context).getUser;
+    final UserModel? userModel = Provider.of<UserProvider>(context).getUser;
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 16),
       child: Row(
@@ -69,15 +69,12 @@ class _CommentCardState extends State<CommentCard> {
             ),
           ),
           LikeAnimation(
-            isAnimation:
-            widget.snap['likes'].contains(userModel.uid),
+            isAnimation: widget.snap['likes'].contains(userModel?.uid),
             smallLike: true,
             child: InkWell(
-              onTap: ()async{
-                await FireStoreMethods().likeComment(
-                    widget.snap['commentId'],
-                    userModel.uid,
-                    widget.snap['likes']);
+              onTap: () async {
+                await FireStoreMethods().likeComment(widget.snap['commentId'],
+                    userModel!.uid, widget.snap['likes']);
                 setState(() {
                   onTap = !onTap;
                 });
@@ -85,12 +82,15 @@ class _CommentCardState extends State<CommentCard> {
               child: Container(
                 padding: const EdgeInsets.all(8),
                 child: onTap == false
-                    ? const FaIcon(FontAwesomeIcons.heart,size: 16,)
+                    ? const FaIcon(
+                        FontAwesomeIcons.heart,
+                        size: 16,
+                      )
                     : const Icon(
-                  Icons.favorite,
-                  color: Colors.red,
-                  size: 16,
-                ),
+                        Icons.favorite,
+                        color: Colors.red,
+                        size: 16,
+                      ),
               ),
             ),
           )

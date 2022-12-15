@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:insta/models/user_model.dart';
 import 'package:insta/provider/user_provider.dart';
 import 'package:insta/resources/firestore_methods.dart';
@@ -53,8 +54,7 @@ class _MyPostCardState extends State<MyPostCard> {
 
   @override
   Widget build(BuildContext context) {
-    // final box = context.findRenderObject() as RenderBox;
-    final UserModel userModel = Provider.of<UserProvider>(context).getUser;
+    final UserModel? userModel = Provider.of<UserProvider>(context).getUser;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -96,7 +96,7 @@ class _MyPostCardState extends State<MyPostCard> {
           child: GestureDetector(
             onDoubleTap: () async {
               await FireStoreMethods().likePost(
-                  widget.snap['postId'], userModel.uid, widget.snap['likes']);
+                  widget.snap['postId'], userModel!.uid, widget.snap['likes']);
               setState(() {
                 onTap = !onTap;
                 isLikeAnimating = true;
@@ -144,13 +144,13 @@ class _MyPostCardState extends State<MyPostCard> {
                     children: [
                       LikeAnimation(
                         isAnimation:
-                            widget.snap['likes'].contains(userModel.uid),
+                            widget.snap['likes'].contains(userModel?.uid),
                         smallLike: true,
                         child: InkWell(
                           onTap: () async {
                             await FireStoreMethods().likePost(
                                 widget.snap['postId'],
-                                userModel.uid,
+                                userModel!.uid,
                                 widget.snap['likes']);
                             setState(() {
                               onTap = !onTap;
@@ -189,21 +189,26 @@ class _MyPostCardState extends State<MyPostCard> {
                   ),
                   InkWell(
                       onTap: () {
-                        // if(saved==false)
-                        // {
-                        //   Get.snackbar(
-                        //       "Saved",
-                        //       "In Collection",
-                        //       icon: const Icon(Icons.person, color: Colors.white),
-                        //       snackPosition: SnackPosition.TOP,
-                        //       backgroundColor: Colors.black,
-                        //       duration: const Duration(seconds: 2),
-                        //       colorText: whiteColor
-                        //   );
-                        // }
-                        // setState(() {
-                        //   saved = !saved;
-                        // });
+                        if (saved == false) {
+                          Get.snackbar("Saved", "In Collection",
+                              icon:
+                                  const Icon(Icons.person, color: Colors.white),
+                              snackPosition: SnackPosition.TOP,
+                              backgroundColor: Colors.white,
+                              duration: const Duration(seconds: 2),
+                              colorText: Colors.black);
+                        } else {
+                          Get.snackbar("unSaved", "from Collection",
+                              icon:
+                                  const Icon(Icons.person, color: Colors.white),
+                              snackPosition: SnackPosition.TOP,
+                              backgroundColor: Colors.white,
+                              duration: const Duration(seconds: 2),
+                              colorText: Colors.black);
+                        }
+                        setState(() {
+                          saved = !saved;
+                        });
                       },
                       child: saved == false
                           ? const Icon(Icons.save_alt)
