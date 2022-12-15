@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:insta/Screens/feed_screen.dart';
 import 'package:insta/models/user_model.dart';
 import 'package:insta/provider/user_provider.dart';
 import 'package:insta/resources/firestore_methods.dart';
@@ -92,7 +93,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
         });
   }
 
-  void clearImage(){
+  void clearImage() {
     setState(() {
       _file = null;
     });
@@ -108,10 +109,30 @@ class _AddPostScreenState extends State<AddPostScreen> {
   Widget build(BuildContext context) {
     final UserModel? userModel = Provider.of<UserProvider>(context).getUser;
     return _file == null
-        ? Center(
-            child: IconButton(
-              icon: const Icon(Icons.upload),
-              onPressed: () => _selectimage(context),
+        ? Scaffold(
+            appBar: AppBar(
+              backgroundColor: mobileBackgroundColor,
+              title: Column(
+                children: const [
+                  Text("Upload Photo"),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Divider(
+                    thickness: 2,
+                  ),
+                ],
+              ),
+              centerTitle: true,
+            ),
+            body: Center(
+              child: IconButton(
+                icon: const Icon(
+                  Icons.add_a_photo,
+                  size: 40,
+                ),
+                onPressed: () => _selectimage(context),
+              ),
             ),
           )
         : Scaffold(

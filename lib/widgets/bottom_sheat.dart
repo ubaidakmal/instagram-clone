@@ -5,6 +5,7 @@ import 'package:insta/resources/auth_methods.dart';
 import 'package:insta/resources/firestore_methods.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
 import '../models/styles.dart';
 import '../utiles/colors.dart';
 
@@ -313,7 +314,8 @@ showSettingBottomSheet(BuildContext context) {
           }));
 }
 
-showOwnPostBottomSheet(BuildContext context, String postId) {
+showOwnPostBottomSheet(
+    BuildContext context, String postId, String share, String link) {
   showBarModalBottomSheet(
       context: context,
       builder: (context) => StatefulBuilder(builder: (BuildContext context,
@@ -339,7 +341,11 @@ showOwnPostBottomSheet(BuildContext context, String postId) {
                                         width: 1,
                                         color: primaryColor,
                                         style: BorderStyle.solid)),
-                                child: const Icon(Icons.share),
+                                child: InkWell(
+                                    onTap: () async {
+                                      Share.share(share);
+                                    },
+                                    child: const Icon(Icons.share)),
                               ),
                               const SizedBox(
                                 height: 5,
@@ -360,7 +366,11 @@ showOwnPostBottomSheet(BuildContext context, String postId) {
                                         width: 1,
                                         color: primaryColor,
                                         style: BorderStyle.solid)),
-                                child: const Icon(Icons.link),
+                                child: InkWell(
+                                    onTap: () {
+                                      Share.share(link);
+                                    },
+                                    child: const Icon(Icons.link)),
                               ),
                               const SizedBox(
                                 height: 5,

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:insta/Screens/full_post_view.dart';
 import 'package:insta/resources/firestore_methods.dart';
 import 'package:insta/utiles/colors.dart';
 import 'package:insta/widgets/cache_image.dart';
@@ -228,7 +229,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             DocumentSnapshot snap =
                                 (snapshot.data! as dynamic).docs[index];
                             return SizedBox(
-                              child: cachedNetworkImage(snap['postUrl']),
+                              child: InkWell(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) => FullPostView(
+                                                url: snap['postUrl'])));
+                                  },
+                                  child: cachedNetworkImage(snap['postUrl'])),
                             );
                           });
                     })

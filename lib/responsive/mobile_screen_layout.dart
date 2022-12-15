@@ -13,7 +13,6 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
   int _page = 0;
   late PageController pageController;
 
-
   @override
   void initState() {
     super.initState();
@@ -26,15 +25,16 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
     pageController.dispose();
   }
 
-  void navigationPages(int page){
+  void navigationPages(int page) {
     pageController.jumpToPage(page);
   }
 
-  void onPageChanged(int page){
+  void onPageChanged(int page) {
     setState(() {
-      _page=page;
+      _page = page;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

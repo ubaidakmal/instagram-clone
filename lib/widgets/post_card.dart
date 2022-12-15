@@ -78,7 +78,12 @@ class _MyPostCardState extends State<MyPostCard> {
               ),
               InkWell(
                   onTap: () {
-                    showOwnPostBottomSheet(context, widget.snap['postId']);
+                    showOwnPostBottomSheet(
+                        context,
+                        widget.snap['postId'],
+                        ("${widget.snap['username']}\n\n") +
+                            widget.snap['postUrl'],
+                        widget.snap['postUrl']);
                   },
                   child: const Icon(Icons.more_horiz))
             ],
