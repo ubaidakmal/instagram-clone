@@ -7,8 +7,10 @@ import 'package:insta/resources/firestore_methods.dart';
 import 'package:insta/utiles/colors.dart';
 import 'package:insta/utiles/utiles.dart';
 import 'package:insta/widgets/cache_image.dart';
+import 'package:insta/widgets/share_funstionality.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../Screens/comment_screen.dart';
 import 'bottom_sheat.dart';
@@ -51,6 +53,7 @@ class _MyPostCardState extends State<MyPostCard> {
 
   @override
   Widget build(BuildContext context) {
+    // final box = context.findRenderObject() as RenderBox;
     final UserModel userModel = Provider.of<UserProvider>(context).getUser;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,7 +67,8 @@ class _MyPostCardState extends State<MyPostCard> {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(50),
-                    child: cachedNetworkImage(widget.snap['profImg'],height: 40,width: 40),
+                    child: cachedNetworkImage(widget.snap['profImg'],
+                        height: 40, width: 40),
                   ),
                   const SizedBox(
                     width: 10,
@@ -74,7 +78,7 @@ class _MyPostCardState extends State<MyPostCard> {
               ),
               InkWell(
                   onTap: () {
-                    showOwnPostBottomSheet(context,widget.snap['postId']);
+                    showOwnPostBottomSheet(context, widget.snap['postId']);
                   },
                   child: const Icon(Icons.more_horiz))
             ],
@@ -104,8 +108,8 @@ class _MyPostCardState extends State<MyPostCard> {
                 SizedBox(
                   height: 400,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(5),
-                    child: cachedNetworkImage(widget.snap['postUrl'])),
+                      borderRadius: BorderRadius.circular(5),
+                      child: cachedNetworkImage(widget.snap['postUrl'])),
                 ),
                 AnimatedOpacity(
                   duration: const Duration(milliseconds: 200),
@@ -175,7 +179,12 @@ class _MyPostCardState extends State<MyPostCard> {
                       const SizedBox(
                         width: 15,
                       ),
-                      const Icon(Icons.share, size: 25)
+                      IconButton(
+                          onPressed: () async {
+                            Share.share("${widget.snap['username']}\n\n"
+                                "${widget.snap['postUrl']}");
+                          },
+                          icon: const Icon(Icons.share, size: 25))
                     ],
                   ),
                   InkWell(
@@ -231,7 +240,7 @@ class _MyPostCardState extends State<MyPostCard> {
                   )
                 ],
               ),
-               Text(
+              Text(
                 'View all $commentLen comments',
               ),
               const SizedBox(
@@ -243,6 +252,13 @@ class _MyPostCardState extends State<MyPostCard> {
           ),
         ),
       ],
+    );
+  }
+
+  shareUsername(String username) {
+    return Text(
+      username,
+      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
     );
   }
 }
